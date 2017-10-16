@@ -1,5 +1,3 @@
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -20,34 +18,28 @@ public class GUI extends TextEditor{
 	public GUI() //constructor
 	{
 		JPanel pane = new JPanel();
-		setTitle("Text Editor");
+		setTitle("Text Editor"); 
 		setSize(800,600);
-		pane.setLayout(new GridLayout());
 		JMenuBar menu = new JMenuBar();
-		JMenu file = new JMenu("File");
+		JMenu file = new JMenu("File"); //menus for menuitems
 		JMenu edit = new JMenu("Edit");
-		JScrollPane scroll = new JScrollPane(text);
-		scroll.createHorizontalScrollBar();
-		scroll.createVerticalScrollBar();
-		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		JScrollPane scroll = new JScrollPane(text,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);//set scrollbars for textarea
 		text.setEditable(true); //Allow user to edit text
 		text.setLineWrap(true); //Set so text moves to new line when reaches end
-		text.setWrapStyleWord(true);
-		JMenuItem delete = new JMenuItem("Delete");
-		JMenuItem save = new JMenuItem("Save");
+		JMenuItem delete = new JMenuItem("Delete"); //menuitems
+		JMenuItem save = new JMenuItem("Save");	
+		saveFile saveF = new saveFile(); //declare event handles
+		delete deleteText = new delete();
 		file.add(delete);
 		file.add(save);
-		edit.add("Replace");
-		saveFile saveF = new saveFile();
 		save.addActionListener(saveF);
+		delete.addActionListener(deleteText);
 		menu.add(file);
 		menu.add(edit);
-		pane.add(scroll,BorderLayout.CENTER);
+		pane.add(scroll,text);
 		setJMenuBar(menu);
-		pane.add(scroll);
-		add(text);
-		pack();
+		add(scroll);
 		setResizable(true);
 		setVisible(true); 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -63,11 +55,19 @@ public class GUI extends TextEditor{
 			try
 			{
 				//Create new file
-				File userFile =  new File("C:/" + s + ".txt"); 
-				PrintWriter file = new PrintWriter(userFile); 
-				file.println(text.getText());
-				JOptionPane.showMessageDialog(null,"File created and saved in C:\\ drive");
-				file.close();
+				if(s != null)
+				{
+					File userFile =  new File("C:/" + s + ".txt"); 
+					PrintWriter file = new PrintWriter(userFile); 
+					file.println(text.getText());
+					JOptionPane.showMessageDialog(null,"File created and saved in C:\\ drive");
+					file.close();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "File name cannot be null");
+				}
+				
 			}
 			//if failure occurs
 			catch(Exception file)
@@ -75,6 +75,24 @@ public class GUI extends TextEditor{
 				JOptionPane.showMessageDialog(null,"File not created\n"
 						+ "Please check to see if file name entered already exists");
 				file.printStackTrace();
+			}
+		}
+	}
+	public class delete implements ActionListener
+	{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//try catch block
+			try
+			{
+				text.setText("");
+			}
+			//if failure occurs
+			catch(Exception deleteFail)
+			{
+				JOptionPane.showMessageDialog(null, "Something went wrong please try again!" + 
+			" Error: " + deleteFail.getStackTrace());
 			}
 		}
 	}
