@@ -1,8 +1,9 @@
+//Ultan Kearns
+//imports
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.PrintWriter;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -14,27 +15,35 @@ import javax.swing.JTextArea;
 
 public class GUI extends TextEditor{
 	JTextArea text = new JTextArea(800,600);
-	 
-	public GUI() //constructor
+	//Constructor
+	public GUI() 
 	{
 		JPanel pane = new JPanel();
 		setTitle("Text Editor"); 
 		setSize(800,600);
 		JMenuBar menu = new JMenuBar();
-		JMenu file = new JMenu("File"); //menus for menuitems
+		//menus for menuitems
+		JMenu file = new JMenu("File"); 
 		JMenu edit = new JMenu("Edit");
+		//set scrollbars for textarea
 		JScrollPane scroll = new JScrollPane(text,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);//set scrollbars for textarea
-		text.setEditable(true); //Allow user to edit text
-		text.setLineWrap(true); //Set so text moves to new line when reaches end
-		JMenuItem delete = new JMenuItem("Delete"); //menuitems
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		//Allow user to edit text
+		text.setEditable(true); 
+		//Set so text moves to new line when reaches end of window
+		text.setLineWrap(true); 
+		//menuitems
+		JMenuItem clear = new JMenuItem("Clear Text"); 
 		JMenuItem save = new JMenuItem("Save");	
-		saveFile saveF = new saveFile(); //declare event handles
-		delete deleteText = new delete();
-		file.add(delete);
+		//declare event handles
+		saveFile saveF = new saveFile();
+		clear clearTextArea = new clear();
+		file.add(clear);
 		file.add(save);
+		//add actionlisteners to JMenuItems
 		save.addActionListener(saveF);
-		delete.addActionListener(deleteText);
+		clear.addActionListener(clearTextArea);
+		//add JMenus to JMenuBar obj
 		menu.add(file);
 		menu.add(edit);
 		pane.add(scroll,text);
@@ -78,7 +87,7 @@ public class GUI extends TextEditor{
 			}
 		}
 	}
-	public class delete implements ActionListener
+	public class clear implements ActionListener
 	{
 
 		@Override
@@ -89,10 +98,10 @@ public class GUI extends TextEditor{
 				text.setText("");
 			}
 			//if failure occurs
-			catch(Exception deleteFail)
+			catch(Exception clearFail)
 			{
 				JOptionPane.showMessageDialog(null, "Something went wrong please try again!" + 
-			" Error: " + deleteFail.getStackTrace());
+			" Error: " + clearFail.getStackTrace());
 			}
 		}
 	}
