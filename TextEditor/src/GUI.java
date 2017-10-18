@@ -34,15 +34,19 @@ public class GUI extends TextEditor{
 		text.setLineWrap(true); 
 		//menuitems
 		JMenuItem clear = new JMenuItem("Clear Text"); 
-		JMenuItem save = new JMenuItem("Save");	
+		JMenuItem save = new JMenuItem("Save");
+		JMenuItem readjust = new JMenuItem("Resize");
 		//declare event handles
 		saveFile saveF = new saveFile();
 		clear clearTextArea = new clear();
+		resize changeSize = new resize();
 		file.add(clear);
 		file.add(save);
+		edit.add(readjust);
 		//add actionlisteners to JMenuItems
 		save.addActionListener(saveF);
 		clear.addActionListener(clearTextArea);
+		readjust.addActionListener(changeSize);
 		//add JMenus to JMenuBar obj
 		menu.add(file);
 		menu.add(edit);
@@ -60,21 +64,35 @@ public class GUI extends TextEditor{
 		public void actionPerformed(ActionEvent e) {
 			//allow user to enter file name and append with .txt
 			String s = JOptionPane.showInputDialog("Input name of file:");
+			String w = "";
+			try
+			{
+				//Allow user to enter directory
+				w = JOptionPane.showInputDialog("Input Directory where you want the file:\n"
+						+ "eg C:\\ for C drive");
+			}
+			catch(Exception writeFile)
+			{
+				JOptionPane.showMessageDialog(null, "Task could not be completed\nPlease try again"
+						,"Cannot write file error", JOptionPane.ERROR_MESSAGE, null);
+			}
 			//try catch block
 			try
 			{
-				//Create new file
-				if(s != null)
+				if(!(s.isEmpty() && w.isEmpty()) && (w != null && s != null))
 				{
-					File userFile =  new File("C:/" + s + ".txt"); 
+					//Create new file
+					File userFile =  new File(w + s + ".txt"); 
 					PrintWriter file = new PrintWriter(userFile); 
+					//set files content = text
 					file.println(text.getText());
-					JOptionPane.showMessageDialog(null,"File created and saved in C:\\ drive");
+					JOptionPane.showMessageDialog(null,"File created and saved in " + w);
 					file.close();
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "File name cannot be null");
+					JOptionPane.showMessageDialog(null, "File name or directory cannot be null"
+							,"Null Error", JOptionPane.ERROR_MESSAGE, null);
 				}
 				
 			}
@@ -82,7 +100,8 @@ public class GUI extends TextEditor{
 			catch(Exception file)
 			{
 				JOptionPane.showMessageDialog(null,"File not created\n"
-						+ "Please check to see if file name entered already exists");
+						+ "Please check to see if file name entered already exists","File Error", 
+						JOptionPane.ERROR_MESSAGE, null);
 				file.printStackTrace();
 			}
 		}
@@ -102,6 +121,24 @@ public class GUI extends TextEditor{
 			{
 				JOptionPane.showMessageDialog(null, "Something went wrong please try again!" + 
 			" Error: " + clearFail.getStackTrace());
+			}
+		}
+	}
+	public class resize implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			try 
+			{
+				String height = JOptionPane.showInputDialog("Enter height: ");
+				String width = JOptionPane.showInputDialog("Enter width: ");
+				int h = Integer.parseInt(height);
+				int w = Integer.parseInt(width);
+				setSize(h,w);
+			}
+			catch(Exception reSizeFail)
+			{
+				JOptionPane.showMessageDialog(null, "Invalid type entered must be integer","Error", JOptionPane.ERROR_MESSAGE, null);
 			}
 		}
 	}
