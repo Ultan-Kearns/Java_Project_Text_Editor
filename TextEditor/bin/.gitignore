@@ -6,3 +6,10 @@
 /functions$saveFile.class
 /GUI$delete.class
 /GUI$replace.class
+/GUI$clear.class
+/Functions.class
+/Functions$clear.class
+/Functions$saveFile.class
+/GUI$resize.class
+/GUI$writeFile.class
+/GUI$readFile.class

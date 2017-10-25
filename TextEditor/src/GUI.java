@@ -3,7 +3,11 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.PrintWriter;
+import java.util.Scanner;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -36,10 +40,13 @@ public class GUI extends TextEditor{
 		JMenuItem clear = new JMenuItem("Clear Text"); 
 		JMenuItem save = new JMenuItem("Save");
 		JMenuItem readjust = new JMenuItem("Resize");
+		JMenuItem readF = new JMenuItem("Open File");
 		//declare event handles
+		readFile read = new readFile();
 		saveFile saveF = new saveFile();
 		clear clearTextArea = new clear();
 		resize changeSize = new resize();
+		file.add(readF);
 		file.add(clear);
 		file.add(save);
 		edit.add(readjust);
@@ -47,6 +54,7 @@ public class GUI extends TextEditor{
 		save.addActionListener(saveF);
 		clear.addActionListener(clearTextArea);
 		readjust.addActionListener(changeSize);
+		readF.addActionListener(read);
 		//add JMenus to JMenuBar obj
 		menu.add(file);
 		menu.add(edit);
@@ -62,7 +70,7 @@ public class GUI extends TextEditor{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//allow user to enter file name and append with .txt
+			//allow user to enter file name
 			String s = JOptionPane.showInputDialog("Input name of file:");
 			String w = "";
 			try
@@ -79,9 +87,10 @@ public class GUI extends TextEditor{
 			//try catch block
 			try
 			{
+				//check if fields are null or empty
 				if(!(s.isEmpty() && w.isEmpty()) && (w != null && s != null))
 				{
-					//Create new file
+					//Create new file and append with .txt
 					File userFile =  new File(w + s + ".txt"); 
 					PrintWriter file = new PrintWriter(userFile); 
 					//set files content = text
@@ -91,6 +100,7 @@ public class GUI extends TextEditor{
 				}
 				else
 				{
+					//print out error message if either field is empty
 					JOptionPane.showMessageDialog(null, "File name or directory cannot be null"
 							,"Null Error", JOptionPane.ERROR_MESSAGE, null);
 				}
@@ -103,6 +113,44 @@ public class GUI extends TextEditor{
 						+ "Please check to see if file name entered already exists","File Error", 
 						JOptionPane.ERROR_MESSAGE, null);
 				file.printStackTrace();
+			}
+		}
+	}
+	public class readFile implements ActionListener
+	{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//allow user to enter file name 
+			String s = JOptionPane.showInputDialog("Input name of file:");
+			String w = "";
+			
+			//Allow user to enter directory
+			w = JOptionPane.showInputDialog("Input Directory where file is located:\n"
+			+ "eg C:\\ for C drive");
+			//check if fields are null or empty
+			if(!(s.isEmpty() && w.isEmpty()) && (w != null && s != null))
+			{
+				//Create new file and append with .txt
+				File file = new File(w + s + ".txt"); 
+				Scanner input;
+				try {
+					input = new Scanner(file);
+					while(input.hasNext())
+					{
+						text.setText(input.nextLine());
+					}
+					input.close();
+				} catch (FileNotFoundException e1) {
+					JOptionPane.showMessageDialog(null, "Failure to read file");
+				} 
+				//set files content = text
+			}
+			else
+			{
+				//print out error message if either field is empty
+				JOptionPane.showMessageDialog(null, "File name or directory cannot be null"
+						,"Null Error", JOptionPane.ERROR_MESSAGE, null);
 			}
 		}
 	}
