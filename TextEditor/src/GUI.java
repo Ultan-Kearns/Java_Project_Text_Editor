@@ -18,10 +18,14 @@ import javax.swing.JTextArea;
 
 public class GUI extends TextEditor{
 	/**
-	 *Code by Ultan Kearns
-	 *Project Started: 
-	 *Project Ended:
-	 */
+	 * Code by Ultan Kearns
+	 * ID: G00343745
+	 * E-Mail G00343745@gmit.ie
+	 * Start Date:
+	 * End Date:
+	 * Java Project for Software Year 2
+	*/
+	
 	private static final long serialVersionUID = 1L;
 	JTextArea text = new JTextArea(800,600);
 	boolean saved = false;
@@ -60,7 +64,22 @@ public class GUI extends TextEditor{
 		file.add(clear);
 		file.add(save);
 		edit.add(readjust);
-		edit.add("Size");
+		edit.add("Font Size").addActionListener(new ActionListener()  {
+			
+			@Override
+			public void actionPerformed(ActionEvent e){
+				try
+				{
+					int size = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter size you would like font to be:"));
+					Font f = (new Font(text.getFont().toString(),text.getFont().getStyle(),size));
+					text.setFont(f);
+				}
+				catch(Exception fontResize)
+				{
+					JOptionPane.showMessageDialog(null, "Invalid type entered must be integer","Font Resize Error", JOptionPane.ERROR_MESSAGE, null);
+				}
+			}
+		});
 		style.add("Bold").addActionListener(new ActionListener() {
 			
 			@Override
@@ -145,7 +164,7 @@ public class GUI extends TextEditor{
 			catch(Exception writeFile)
 			{
 				JOptionPane.showMessageDialog(null, "Task could not be completed\nPlease try again"
-						,"Cannot write file error", JOptionPane.ERROR_MESSAGE, null);
+						,"File Write Error", JOptionPane.ERROR_MESSAGE, null);
 			}
 			//try catch block
 			try
@@ -219,7 +238,7 @@ public class GUI extends TextEditor{
 					}
 					input.close();
 				} catch (FileNotFoundException e1) {
-					JOptionPane.showMessageDialog(null, "Failure to read file");
+					JOptionPane.showMessageDialog(null, "Failure to read file","Read File fail",JOptionPane.ERROR_MESSAGE,null);
 				} 
 				//set files content = text
 			}
@@ -227,7 +246,7 @@ public class GUI extends TextEditor{
 			{
 				//print out error message if either field is empty
 				JOptionPane.showMessageDialog(null, "File name or directory cannot be null"
-						,"Null Error", JOptionPane.ERROR_MESSAGE, null);
+						,"File Directory or Name Null Error", JOptionPane.ERROR_MESSAGE, null);
 			}
 		}
 	}
@@ -245,7 +264,7 @@ public class GUI extends TextEditor{
 			catch(Exception clearFail)
 			{
 				JOptionPane.showMessageDialog(null, "Something went wrong please try again!" + 
-			" Error: " + clearFail.getStackTrace());
+			" Error: " + clearFail.getStackTrace(),"Clear Error",JOptionPane.WARNING_MESSAGE,null);
 			}
 		}
 	}
@@ -261,9 +280,9 @@ public class GUI extends TextEditor{
 				int w = Integer.parseInt(width);
 				setSize(h,w);
 			}
-			catch(Exception reSizeFail)
+			catch(Exception WindowResizeFail)
 			{
-				JOptionPane.showMessageDialog(null, "Invalid type entered must be integer","Error", JOptionPane.ERROR_MESSAGE, null);
+				JOptionPane.showMessageDialog(null, "Invalid types entered\nTypes must be integer","Error Window Resize Error!", JOptionPane.ERROR_MESSAGE, null);
 			}
 		}
 	}
