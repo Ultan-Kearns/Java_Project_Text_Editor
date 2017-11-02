@@ -4,10 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.Scanner;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -17,8 +15,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 
+
 public class GUI extends TextEditor{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JTextArea text = new JTextArea(800,600);
+	boolean saved = false;
 	//Constructor
 	public GUI() 
 	{
@@ -35,7 +39,7 @@ public class GUI extends TextEditor{
 		//Allow user to edit text
 		text.setEditable(true); 
 		//Set so text moves to new line when reaches end of window
-		text.setLineWrap(true); 
+		text.setLineWrap(true);
 		//menuitems
 		JMenuItem clear = new JMenuItem("Clear Text"); 
 		JMenuItem save = new JMenuItem("Save");
@@ -65,11 +69,12 @@ public class GUI extends TextEditor{
 		setVisible(true); 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	public class saveFile implements ActionListener
+	
+	public class saveFile  implements ActionListener
 	{
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e){
 			//allow user to enter file name
 			String s = JOptionPane.showInputDialog("Input name of file:");
 			String w = "";
@@ -90,30 +95,43 @@ public class GUI extends TextEditor{
 				//check if fields are null or empty
 				if(!(s.isEmpty() && w.isEmpty()) && (w != null && s != null))
 				{
-					//Create new file and append with .txt
-					File userFile =  new File(w + s + ".txt"); 
-					PrintWriter file = new PrintWriter(userFile); 
-					//set files content = text
-					file.println(text.getText());
-					JOptionPane.showMessageDialog(null,"File created and saved in " + w);
-					file.close();
+					try
+					{
+						//Create new file and append with .txt
+						File userFile =  new File(w + s + ".txt"); 
+						PrintWriter file = new PrintWriter(userFile); 
+						//set files content = text
+						file.println(text.getText());
+						file.close();
+						File dir = new File(w);
+						if(dir.exists())
+						{
+							JOptionPane.showMessageDialog(null, "File " +  s + " created\n" + "Saved in " + w, null,JOptionPane.PLAIN_MESSAGE );
+						}
+						else
+						{
+							throw new Exception();
+						}
+					
+					}
+					catch(Exception fileNotCreatedException)
+					{
+						JOptionPane.showMessageDialog(null,"File not created\n"
+								+ "Please check to see if file name entered already exists","File Error", 
+								JOptionPane.ERROR_MESSAGE, null);
+						fileNotCreatedException.printStackTrace();
+					}
+					
 				}
-				else
+			}
+				catch(Exception fileDirectory)
 				{
 					//print out error message if either field is empty
 					JOptionPane.showMessageDialog(null, "File name or directory cannot be null"
 							,"Null Error", JOptionPane.ERROR_MESSAGE, null);
 				}
-				
-			}
 			//if failure occurs
-			catch(Exception file)
-			{
-				JOptionPane.showMessageDialog(null,"File not created\n"
-						+ "Please check to see if file name entered already exists","File Error", 
-						JOptionPane.ERROR_MESSAGE, null);
-				file.printStackTrace();
-			}
+		
 		}
 	}
 	public class readFile implements ActionListener

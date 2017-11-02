@@ -13,3 +13,7 @@
 /GUI$resize.class
 /GUI$writeFile.class
 /GUI$readFile.class
+/clear.class
+/readFile.class
+/resize.class
+/saveFile.class
