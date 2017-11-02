@@ -1,5 +1,5 @@
-//Ultan Kearns
 //imports
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -18,12 +18,14 @@ import javax.swing.JTextArea;
 
 public class GUI extends TextEditor{
 	/**
-	 * 
+	 *Code by Ultan Kearns
+	 *Project Started: 
+	 *Project Ended:
 	 */
 	private static final long serialVersionUID = 1L;
 	JTextArea text = new JTextArea(800,600);
 	boolean saved = false;
-	//Constructor
+	//Constructor for GUI
 	public GUI() 
 	{
 		JPanel pane = new JPanel();
@@ -33,6 +35,8 @@ public class GUI extends TextEditor{
 		//menus for menuitems
 		JMenu file = new JMenu("File"); 
 		JMenu edit = new JMenu("Edit");
+		JMenu font = new JMenu("Font");
+		JMenu style = new JMenu("Font-style");
 		//set scrollbars for textarea
 		JScrollPane scroll = new JScrollPane(text,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -40,6 +44,8 @@ public class GUI extends TextEditor{
 		text.setEditable(true); 
 		//Set so text moves to new line when reaches end of window
 		text.setLineWrap(true);
+		//set default font and size
+		text.setFont(new Font("Arial",Font.PLAIN,12));
 		//menuitems
 		JMenuItem clear = new JMenuItem("Clear Text"); 
 		JMenuItem save = new JMenuItem("Save");
@@ -54,6 +60,56 @@ public class GUI extends TextEditor{
 		file.add(clear);
 		file.add(save);
 		edit.add(readjust);
+		edit.add("Size");
+		style.add("Bold").addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Font f = (new Font(text.getFont().toString(),Font.BOLD,text.getFont().getSize()));
+				text.setFont(f);
+				
+			}
+		});
+		style.add("Italic").addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Font f = (new Font(text.getFont().toString(),Font.ITALIC,text.getFont().getSize()));
+				text.setFont(f);
+			}
+		});
+		style.add("Plain").addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Font f = (new Font(text.getFont().toString(),Font.PLAIN,text.getFont().getSize()));
+			text.setFont(f);
+		}
+		});
+		//add action listeners to fonts
+		font.add("Arial").addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				text.setFont(new Font("Arial",Font.PLAIN,12));
+			}
+		});
+		font.add("Georgia").addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				text.setFont(new Font("Georgia",Font.PLAIN,12));
+			}
+		});
+		font.add("Times New Roman").addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				text.setFont(new Font("Times New Roman",Font.PLAIN,12));
+			}
+		});;
+		font.add("Monospace").addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				text.setFont(new Font("Monospace",Font.PLAIN,12));
+			}
+		});;
 		//add actionlisteners to JMenuItems
 		save.addActionListener(saveF);
 		clear.addActionListener(clearTextArea);
@@ -62,6 +118,8 @@ public class GUI extends TextEditor{
 		//add JMenus to JMenuBar obj
 		menu.add(file);
 		menu.add(edit);
+		menu.add(font);
+		menu.add(style);
 		pane.add(scroll,text);
 		setJMenuBar(menu);
 		add(scroll);
@@ -152,7 +210,8 @@ public class GUI extends TextEditor{
 				//Create new file and append with .txt
 				File file = new File(w + s + ".txt"); 
 				Scanner input;
-				try {
+				try 
+				{
 					input = new Scanner(file);
 					while(input.hasNext())
 					{
