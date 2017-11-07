@@ -1,17 +1,19 @@
-//Ultan Kearns
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
 
 public class TextEditor extends JFrame{
 
+	/**
+	 * Code by Ultan Kearns
+	 * ID: G00343745
+	 * E-Mail G00343745@gmit.ie
+	 * Start Date:
+	 * End Date:
+	 * Java Project for Software Year 2
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static void main(String[] args) {
-		GUI GUI = new GUI(); //new object of gui
+		new GUI();
 	}
 
 }

@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.text.StyledEditorKit.FontSizeAction;
 
 
 
@@ -64,7 +65,7 @@ public class GUI extends TextEditor{
 		file.add(clear);
 		file.add(save);
 		edit.add(readjust);
-		edit.add("Font Size").addActionListener(new ActionListener()  {
+		edit.add("Font Size").addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -72,11 +73,18 @@ public class GUI extends TextEditor{
 				{
 					int size = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter size you would like font to be:"));
 					Font f = (new Font(text.getFont().toString(),text.getFont().getStyle(),size));
-					text.setFont(f);
+					if(size > 12 && size < 100)
+					{
+						text.setFont(f);
+					}
+					else
+					{
+						throw new Exception();
+					}
 				}
 				catch(Exception fontResize)
 				{
-					JOptionPane.showMessageDialog(null, "Invalid type entered must be integer","Font Resize Error", JOptionPane.ERROR_MESSAGE, null);
+					JOptionPane.showMessageDialog(null, "Font must be between 12 and 100\nPlease make sure input is valid","Font Resize Error", JOptionPane.ERROR_MESSAGE, null);
 				}
 			}
 		});
@@ -278,11 +286,19 @@ public class GUI extends TextEditor{
 				String width = JOptionPane.showInputDialog("Enter width: ");
 				int h = Integer.parseInt(height);
 				int w = Integer.parseInt(width);
-				setSize(h,w);
+				if(h >= 800 && w >= 600 && h <= 2560 && w <= 1440)
+				{
+					setSize(h,w);
+				}
+				else
+				{
+					throw new Exception();
+				}
 			}
 			catch(Exception WindowResizeFail)
 			{
-				JOptionPane.showMessageDialog(null, "Invalid types entered\nTypes must be integer","Error Window Resize Error!", JOptionPane.ERROR_MESSAGE, null);
+				JOptionPane.showMessageDialog(null, "Invalid types entered\nTypes must be integer\n"
+						+ "also window size should be minimum 800 * 600 and maximum 2560 * 1440","Error Window Resize Error!", JOptionPane.ERROR_MESSAGE, null);
 			}
 		}
 	}
