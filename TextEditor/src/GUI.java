@@ -22,7 +22,7 @@ public class GUI extends TextEditor{
 	 * Code by Ultan Kearns
 	 * ID: G00343745
 	 * E-Mail G00343745@gmit.ie
-	 * Start Date:
+	 * Start Date: 02/10/17
 	 * End Date:
 	 * Java Project for Software Year 2
 	*/
@@ -73,7 +73,7 @@ public class GUI extends TextEditor{
 				{
 					int size = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter size you would like font to be:"));
 					Font f = (new Font(text.getFont().toString(),text.getFont().getStyle(),size));
-					if(size > 12 && size < 100)
+					if(size >= 12 && size <= 100)
 					{
 						text.setFont(f);
 					}
@@ -116,25 +116,25 @@ public class GUI extends TextEditor{
 		font.add("Arial").addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				text.setFont(new Font("Arial",Font.PLAIN,12));
+				text.setFont(new Font("Arial",Font.PLAIN,text.getFont().getSize()));
 			}
 		});
 		font.add("Georgia").addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				text.setFont(new Font("Georgia",Font.PLAIN,12));
+				text.setFont(new Font("Georgia",Font.PLAIN,text.getFont().getSize()));
 			}
 		});
 		font.add("Times New Roman").addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				text.setFont(new Font("Times New Roman",Font.PLAIN,12));
+				text.setFont(new Font("Times New Roman",Font.PLAIN,text.getFont().getSize()));
 			}
 		});;
 		font.add("Monospace").addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				text.setFont(new Font("Monospace",Font.PLAIN,12));
+				text.setFont(new Font("Monospace",Font.PLAIN,text.getFont().getSize()));
 			}
 		});;
 		//add actionlisteners to JMenuItems
@@ -184,9 +184,9 @@ public class GUI extends TextEditor{
 					{
 						//Create new file and append with .txt
 						File userFile =  new File(w + s + ".txt"); 
-						PrintWriter file = new PrintWriter(userFile); 
+						PrintWriter file = new PrintWriter(userFile);
 						//set files content = text
-						file.println(text.getText());
+						file.print(text.getText());
 						file.close();
 						File dir = new File(w);
 						if(dir.exists())
@@ -202,7 +202,7 @@ public class GUI extends TextEditor{
 					catch(Exception fileNotCreatedException)
 					{
 						JOptionPane.showMessageDialog(null,"File not created\n"
-								+ "Please check to see if file name entered already exists","File Error", 
+								+ "Please check to see directory exists","File Error", 
 								JOptionPane.ERROR_MESSAGE, null);
 						fileNotCreatedException.printStackTrace();
 					}
