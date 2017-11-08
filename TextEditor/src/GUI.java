@@ -13,9 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.text.StyledEditorKit.FontSizeAction;
-
-
 
 public class GUI extends TextEditor{
 	/**
@@ -182,8 +179,8 @@ public class GUI extends TextEditor{
 				{
 					try
 					{
-						//Create new file and append with .txt
-						File userFile =  new File(w + s + ".txt"); 
+						//Create new file and append with .rtf
+						File userFile =  new File(w + s + ".rtf"); 
 						PrintWriter file = new PrintWriter(userFile);
 						//set files content = text
 						file.print(text.getText());
@@ -234,16 +231,19 @@ public class GUI extends TextEditor{
 			//check if fields are null or empty
 			if(!(s.isEmpty() && w.isEmpty()) && (w != null && s != null))
 			{
-				//Create new file and append with .txt
-				File file = new File(w + s + ".txt"); 
+				//Create new file and append with .rtf
+				File file = new File(w + s + ".rtf"); 
 				Scanner input;
 				try 
 				{
 					input = new Scanner(file);
+					String inFile = "";
 					while(input.hasNext())
 					{
-						text.setText(input.nextLine());
+						inFile += input.next();
 					}
+					inFile = inFile.replace("\n","").replace("", System.getProperty("line.separator"));
+					text.setText(inFile);
 					input.close();
 				} catch (FileNotFoundException e1) {
 					JOptionPane.showMessageDialog(null, "Failure to read file","Read File fail",JOptionPane.ERROR_MESSAGE,null);
