@@ -1,3 +1,5 @@
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 
 public class TextEditor extends JFrame{
@@ -16,4 +18,8 @@ public class TextEditor extends JFrame{
 		new GUI();
 	}
 
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
