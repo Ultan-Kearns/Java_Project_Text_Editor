@@ -127,13 +127,8 @@ public class GUI extends TextEditor {
 			// allow user to enter file name
 			String s = JOptionPane.showInputDialog("Input name of file:");
 			String w = "";
-			try {
-				// Allow user to enter directory
-				w = JOptionPane.showInputDialog("Input Directory where you want the file:\n" + "eg C:\\ for C drive");
-			} catch (Exception writeFile) {
-				JOptionPane.showMessageDialog(null, "Task could not be completed\nPlease try again", "File Write Error",
-						JOptionPane.ERROR_MESSAGE, null);
-			}
+			// Allow user to enter directory
+			w = JOptionPane.showInputDialog("Input Directory where you want the file:\n" + "eg C:\\ for C drive");
 			// try catch block
 			try {
 				// check if fields are null or empty
@@ -154,16 +149,16 @@ public class GUI extends TextEditor {
 						}
 
 					} catch (Exception fileNotCreatedException) {
-						JOptionPane.showMessageDialog(null,
-								"File not created\n" + "Please check to see directory exists", "File Error",
-								JOptionPane.ERROR_MESSAGE, null);
+						JOptionPane.showMessageDialog(null, "File not created\n"
+								+ "Please check to see if app is running in administator mode\n and directory exists.",
+								"File Creation Error", JOptionPane.ERROR_MESSAGE, null);
 						fileNotCreatedException.printStackTrace();
 					}
 
 				}
 			} catch (Exception fileDirectory) {
 				// print out error message if either field is empty
-				JOptionPane.showMessageDialog(null, "File name or directory cannot be null", "Null Error",
+				JOptionPane.showMessageDialog(null, "File name or directory cannot be null", "Null Name/Dir Error",
 						JOptionPane.ERROR_MESSAGE, null);
 			}
 			// if failure occurs
@@ -189,10 +184,9 @@ public class GUI extends TextEditor {
 				try {
 					input = new Scanner(file);
 					String inFile = "";
-					while (input.hasNext()) {
-						inFile += input.next();
+					while (input.hasNextLine()) {
+						inFile += input.nextLine();
 					}
-					inFile = inFile.replace("\n", "").replace("", System.getProperty("line.separator"));
 					text.setText(inFile);
 					input.close();
 				} catch (FileNotFoundException e1) {
