@@ -186,6 +186,7 @@ public class GUI extends TextEditor {
 					String inFile = "";
 					while (input.hasNextLine()) {
 						inFile += input.nextLine();
+						inFile += "\n";
 					}
 					text.setText(inFile);
 					input.close();
